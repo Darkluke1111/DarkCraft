@@ -2,7 +2,7 @@
 Recipe Filenames must be named "recipe_<arbitaryName>.yml"
 
 <recipeName>:
-  ==: de.darkluke1111.darkCraft.data.AdvRecipe
+  ==: de.darkluke1111.darkcraft.data.AdvRecipe
   result:
     type: <blockType>
     amount: <amount>
@@ -15,12 +15,12 @@ Recipe Filenames must be named "recipe_<arbitaryName>.yml"
     <character>: <blockType>:<subID>
   behaviors:
     <behaviorName>:
-      ==: de.darkluke1111.darkCraft.data.behaviors.<behaviorClass>
+      ==: de.darkluke1111.darkcraft.data.behaviors.<behaviorClass>
       <behaviorAttribute1>: <value>
       <behaviorAttribute2>: <value>
       ...
     <behaviorName>:
-      ==: de.darkluke1111.darkCraft.data.behaviors.<behaviorClass>
+      ==: de.darkluke1111.darkcraft.data.behaviors.<behaviorClass>
       <behaviorAttribute1>: <value>
       <behaviorAttribute2>: <value>
       ...
@@ -29,7 +29,7 @@ Recipe Filenames must be named "recipe_<arbitaryName>.yml"
 Example:
 
 test:
-  ==: de.darkluke1111.darkCraft.data.AdvRecipe
+  ==: de.darkluke1111.darkcraft.data.AdvRecipe
   result:
     type: BEDROCK
     amount: 4
@@ -42,15 +42,15 @@ test:
     +: STONE:0
   behaviors:
     Structure:
-      ==: de.darkluke1111.darkCraft.data.behaviors.StructureBehavior
+      ==: de.darkluke1111.darkcraft.data.behaviors.StructureBehavior
       structures:
       - Gold
     ConsumeExp:
-      ==: de.darkluke1111.darkCraft.data.behaviors.ConsumeExpBehavior
+      ==: de.darkluke1111.darkcraft.data.behaviors.ConsumeExpBehavior
       consumedExp: 5
       expPerItem: true
     Lightning:
-      ==: de.darkluke1111.darkCraft.data.behaviors.LightningBehavior
+      ==: de.darkluke1111.darkcraft.data.behaviors.LightningBehavior
       chance: 100
     
 --Defining different Behaviors--
@@ -58,7 +58,7 @@ test:
 1.) ConsumeLife
 
 ConsumeLife:
-  ==: de.darkluke1111.darkCraft.data.behaviors.ConsumeLifeBehavior
+  ==: de.darkluke1111.darkcraft.data.behaviors.ConsumeLifeBehavior
       consumedLife: <life in half hearts>
       lifePerItem: <true/false>
       preventDeath: <true/false>
@@ -66,26 +66,26 @@ ConsumeLife:
 2.) ConsumeExp
 
 ConsumeExp:
-  ==: de.darkluke1111.darkCraft.data.behaviors.ConsumeExpBehavior
+  ==: de.darkluke1111.darkcraft.data.behaviors.ConsumeExpBehavior
   consumedExp: <exp in orbs>
   expPerItem: <true/false>
   
 3.) Lightning
 
 Lightning:
-  ==: de.darkluke1111.darkCraft.data.behaviors.LightningBehavior
+  ==: de.darkluke1111.darkcraft.data.behaviors.LightningBehavior
   chance: <integer 1-100>
   
 4.) Explosion
 
 Explosion:
-  ==: de.darkluke1111.darkCraft.data.behaviors.ExplosionBehavior
+  ==: de.darkluke1111.darkcraft.data.behaviors.ExplosionBehavior
   chance: <integer 1-100>
   
 5.) Structure
 
 Structure
-  ==: de.darkluke1111.darkCraft.data.behaviors.StructureBehavior
+  ==: de.darkluke1111.darkcraft.data.behaviors.StructureBehavior
   structures:
     - <structure1>
     - <structure2>

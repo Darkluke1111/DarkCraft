@@ -1,5 +1,5 @@
 test:
-  ==: de.darkluke1111.darkCraft.data.AdvRecipe
+  ==: de.darkluke1111.darkcraft.data.AdvRecipe
   result:
     type: BEDROCK
     amount: 4
@@ -12,13 +12,13 @@ test:
     +: STONE:0
   behaviors:
     Structure:
-      ==: de.darkluke1111.darkCraft.data.behaviors.StructureBehavior
+      ==: de.darkluke1111.darkcraft.data.behaviors.StructureBehavior
       structures:
       - 'Gold'
     ConsumeExp:
-      ==: de.darkluke1111.darkCraft.data.behaviors.ConsumeExpBehavior
+      ==: de.darkluke1111.darkcraft.data.behaviors.ConsumeExpBehavior
       consumedExp: 5
       expPerItem: true
     Lightning:
-      ==: de.darkluke1111.darkCraft.data.behaviors.LightningBehavior
+      ==: de.darkluke1111.darkcraft.data.behaviors.LightningBehavior
       chance: 100

@@ -4,7 +4,7 @@ description: Crafting Plugin
 author: Darkluke1111
 authors: []
 
-main: de.darkluke1111.darkCraft.DarkCraft
+main: de.darkluke1111.darkcraft.DarkCraft
 database: false
 depend: []
 
