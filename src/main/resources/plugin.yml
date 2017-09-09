@@ -1,0 +1,25 @@
+name: DarkCraft
+version: 0.1
+description: Crafting Plugin
+author: Darkluke1111
+authors: []
+
+main: de.darkluke1111.darkCraft.DarkCraft
+database: false
+depend: []
+
+commands:
+ saveStruct:
+  description: Saves the current Selection as Structure with the given name.
+  usage: /<command> name
+ pasteStruct:
+  description: Pastes the Structure with the given name at your location.
+  usage: /<command> name
+ viewRecipes:
+  description: Shows you all available recipes from this plugin.
+  usage: /<command>
+ reloadStructures:
+  description: Clears the structure cache so that they are loaded from disc again when they are used.
+  usage: /<command>
+
+permissions:

@@ -1,0 +1,14 @@
+contents:
+  ==: de.darkluke1111.darkCraft.data.Structure
+  name: Gold
+  xSpan: 3
+  ySpan: 1
+  zSpan: 3
+  xOffset: -1
+  yOffset: 0
+  zOffset: -1
+  matrix:
+    layer0:
+    - 'STONE:0, AIR:0, STONE:0, '
+    - 'AIR:0, WORKBENCH:0, AIR:0, '
+    - 'STONE:0, AIR:0, STONE:0, '
