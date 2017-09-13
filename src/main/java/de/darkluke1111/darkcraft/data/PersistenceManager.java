@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import org.bukkit.Material;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.ItemStack;
@@ -52,9 +53,10 @@ public class PersistenceManager {
 
     for (String key : keys) {
       try {
-        Map<String, Object> recipeMap = (Map) config.get(key);
-        recipes.add(parseRecipeMap(key, recipeMap));
+        ConfigurationSection recipeSection =  config.getConfigurationSection(key);
+        recipes.add(parseRecipeSection(key, recipeSection));
       } catch (ClassCastException exc) {
+        System.out.println(config.get(key));
         throw new PersistenceSerialisazionException(
             "Invalid keyvalue in key '"
                 + key
@@ -62,25 +64,27 @@ public class PersistenceManager {
       }
 
     }
+
+    recipes.stream().forEach(AdvRecipe::register);
     return recipes;
   }
 
-  private AdvRecipe parseRecipeMap(String recipeTag, Map<String, Object> map)
+  private AdvRecipe parseRecipeSection(String recipeTag, ConfigurationSection recipeSection)
       throws PersistenceSerialisazionException {
 
-    final ItemStack result = parseRecipeResult(recipeTag, map);
-    final String[] shape = parseRecipeShape(recipeTag, map);
-    final Map<Character, MaterialData> ingredientMap = parseIngredients(recipeTag, map);
-    final List<Behavior> behaviors = parseBehaviors(recipeTag, map);
+    final ItemStack result = parseRecipeResult(recipeTag, recipeSection);
+    final String[] shape = parseRecipeShape(recipeTag, recipeSection);
+    final Map<Character, MaterialData> ingredientMap = parseIngredients(recipeTag, recipeSection);
+    final List<Behavior> behaviors = parseBehaviors(recipeTag, recipeSection);
 
     return AdvRecipe.createRecipe(result, shape, ingredientMap)
         .withAllBehaviors(behaviors);
   }
 
   @SuppressWarnings("unchecked")
-  private String[] parseRecipeShape(String recipeTag, Map<String, Object> recipeMap)
+  private String[] parseRecipeShape(String recipeTag, ConfigurationSection recipeSection)
       throws PersistenceSerialisazionException {
-    if (!recipeMap.containsKey(shapeTag)) {
+    if (!recipeSection.contains(shapeTag)) {
       throw new PersistenceSerialisazionException(
           "Shape-tag of recipe '"
               + recipeTag
@@ -88,7 +92,7 @@ public class PersistenceManager {
     }
     List<String> shapeList;
     try {
-      shapeList = (List) recipeMap.get(shapeTag);
+      shapeList = (List) recipeSection.getList(shapeTag);
     } catch (ClassCastException exc) {
       throw new PersistenceSerialisazionException(
           "Invalid shape-value in recipe '"
@@ -118,9 +122,9 @@ public class PersistenceManager {
   }
 
   @SuppressWarnings("unchecked")
-  private ItemStack parseRecipeResult(String recipeTag, Map<String, Object> recipeMap)
+  private ItemStack parseRecipeResult(String recipeTag, ConfigurationSection recipeSection)
       throws PersistenceSerialisazionException {
-    if (!recipeMap.containsKey(resultTag)) {
+    if (!recipeSection.contains(resultTag)) {
       throw new PersistenceSerialisazionException(
           "Result-tag of recipe '"
               + recipeTag
@@ -128,7 +132,8 @@ public class PersistenceManager {
     }
 
     try {
-      Map<String, Object> resultMap = (Map) recipeMap.get(resultTag);
+      Map<String, Object> resultMap = recipeSection.getConfigurationSection(resultTag).getValues(true);
+      System.out.println(resultMap);
       return ItemStack.deserialize(resultMap);
     } catch (ClassCastException exc) {
       throw new PersistenceSerialisazionException(
@@ -141,19 +146,20 @@ public class PersistenceManager {
   @SuppressWarnings("unchecked, deprecation")
   private Map<Character, MaterialData> parseIngredients(
       String recipeTag,
-      Map<String, Object> recipeMap)
+      ConfigurationSection recipeSection)
 
       throws PersistenceSerialisazionException {
-    if (!recipeMap.containsKey(ingredientTag)) {
+    if (!recipeSection.contains(ingredientTag)) {
       throw new PersistenceSerialisazionException(
           "Ingredient-tag of recipe '"
               + recipeTag
               + "' is missing.");
     }
 
+    ConfigurationSection ingredientSection = recipeSection.getConfigurationSection(ingredientTag);
     Map<String, Object> temp1;
     try {
-      temp1 = ((Map<String, Object>) recipeMap.get(ingredientTag));
+      temp1 = ingredientSection.getValues(true);
     } catch (ClassCastException exc) {
       throw new PersistenceSerialisazionException(
           "Invalid ingredient-value in recipe '"
@@ -188,29 +194,27 @@ public class PersistenceManager {
   }
 
   @SuppressWarnings("unchecked")
-  private List<Behavior> parseBehaviors(String recipeTag, Map<String, Object> recipeMap)
+  private List<Behavior> parseBehaviors(String recipeTag, ConfigurationSection recipeSection)
       throws PersistenceSerialisazionException {
 
-    if (!recipeMap.containsKey(behaviorTag)) {
+    if (!recipeSection.contains(behaviorTag)) {
       return new ArrayList<>();
     }
-
-    Map<String, Object> behaviorMap;
-    try {
-      behaviorMap = (Map) recipeMap.get(behaviorTag);
-    } catch (ClassCastException exc) {
+    if(!recipeSection.isConfigurationSection(behaviorTag))
       throw new PersistenceSerialisazionException(
           "Invalid behavior-value in recipe '"
-              + recipeTag
-              + "'.");
-    }
+          + recipeTag
+          + "'");
 
-    Set<String> keys = behaviorMap.keySet();
+    ConfigurationSection behaviorSection = recipeSection.getConfigurationSection(behaviorTag);
+
+    Set<String> keys = behaviorSection.getKeys(false);
     List<Behavior> behaviors = new ArrayList<>();
 
     for (String key : keys) {
       try {
-        Map<String, Object> behaviorData = (Map) behaviorMap.get(key);
+        System.out.println(behaviorSection.get(key));
+        Map<String, Object> behaviorData = behaviorSection.getConfigurationSection(key).getValues(true);
         Behavior beh = Class.forName(behaviorPackage + key)
             .asSubclass(Behavior.class)
             .getConstructor(Map.class)

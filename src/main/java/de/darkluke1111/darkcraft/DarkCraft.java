@@ -1,6 +1,8 @@
 package de.darkluke1111.darkcraft;
 
 import de.darkluke1111.darkcraft.data.AdvRecipe;
+import de.darkluke1111.darkcraft.data.PersistenceManager;
+import de.darkluke1111.darkcraft.data.PersistenceSerialisazionException;
 import de.darkluke1111.darkcraft.data.Structure;
 import de.darkluke1111.darkcraft.data.behaviors.ConsumeExpBehavior;
 import de.darkluke1111.darkcraft.data.behaviors.ConsumeLifeBehavior;
@@ -11,14 +13,11 @@ import de.darkluke1111.darkcraft.recipegui.MenuViewFactory;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.NamespacedKey;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -29,6 +28,7 @@ public class DarkCraft extends JavaPlugin {
   private CraftingManager craftingManager;
   private SelectionManager selectionManager;
   private DarkCraftListener listener;
+  private PersistenceManager persistenceManager;
 
   @Override
   public void onEnable() {
@@ -37,6 +37,7 @@ public class DarkCraft extends JavaPlugin {
     craftingManager = new CraftingManager();
     selectionManager = new SelectionManager();
     listener = new DarkCraftListener();
+    persistenceManager = new PersistenceManager();
 
     saveDefaultConfig();
     saveDefaultRecipes();
@@ -146,12 +147,10 @@ public class DarkCraft extends JavaPlugin {
 
   private void importRecipeFile(String dataFile) {
     File file = new File(getDataFolder(), "recipe_" + dataFile + ".yml");
-    FileConfiguration fc = YamlConfiguration.loadConfiguration(file);
-    Set<String> keySet = fc.getKeys(false);
     try {
-      keySet.stream().map(key -> (AdvRecipe) fc.get(key)).forEach(AdvRecipe::register);
-    } catch (ClassCastException exception) {
-      getLogger().warning("Was not able to read recipe File " + dataFile + "! Is it corrupted?");
+      persistenceManager.loadRecipesFromFile(file);
+    } catch (PersistenceSerialisazionException e) {
+      e.printStackTrace();
     }
   }
 
