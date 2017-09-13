@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.Map;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.configuration.serialization.ConfigurationSerialization;
 import org.bukkit.event.inventory.CraftItemEvent;
 import org.bukkit.event.inventory.PrepareItemCraftEvent;
 import org.bukkit.inventory.ItemStack;
@@ -36,7 +35,7 @@ public class ExplosionBehavior extends Behavior {
     this.radius = 3.0f;
   }
 
-  //region Serialisation Stuff
+  //region Serialization Stuff
   public ExplosionBehavior(Map<String, Object> map) {
     this.chance = (int) map.get("chance");
   }
@@ -93,8 +92,6 @@ public class ExplosionBehavior extends Behavior {
   @Override
   public Map<String, Object> serialize() {
     Map<String, Object> map = new LinkedHashMap<>();
-    map.put(ConfigurationSerialization.SERIALIZED_TYPE_KEY,
-        ConfigurationSerialization.getAlias(this.getClass()));
     map.put("chance", chance);
     return map;
   }

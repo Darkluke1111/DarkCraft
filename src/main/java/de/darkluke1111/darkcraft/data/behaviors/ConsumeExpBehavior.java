@@ -9,7 +9,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import org.bukkit.Material;
-import org.bukkit.configuration.serialization.ConfigurationSerialization;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.CraftItemEvent;
 import org.bukkit.event.inventory.PrepareItemCraftEvent;
@@ -40,7 +39,7 @@ public class ConsumeExpBehavior extends Behavior {
     this(consumedExp, true);
   }
 
-  //region Serialisation Stuff
+  //region Serialization Stuff
   public ConsumeExpBehavior(Map<String, Object> map) {
     this.consumedExp = (int) map.get("consumedExp");
     this.expPerItem = (boolean) map.get("expPerItem");
@@ -109,15 +108,13 @@ public class ConsumeExpBehavior extends Behavior {
   }
   //endregion
 
-  public void setExpPerItem(boolean healthPerItem) {
+  public void setExpPerItem(boolean expPerItem) {
     this.expPerItem = expPerItem;
   }
 
   @Override
   public Map<String, Object> serialize() {
     Map<String, Object> map = new LinkedHashMap<>();
-    map.put(ConfigurationSerialization.SERIALIZED_TYPE_KEY,
-        ConfigurationSerialization.getAlias(this.getClass()));
     map.put("consumedExp", consumedExp);
     map.put("expPerItem", expPerItem);
     return map;

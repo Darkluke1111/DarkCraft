@@ -217,7 +217,7 @@ public class Structure implements ConfigurationSerializable {
   }
   //endregion
 
-  //region Serialisation Stuff
+  //region Serialization Stuff
 
   /**
    * Saves the Structure to a yml file in the plugins data folder to make it persistent.

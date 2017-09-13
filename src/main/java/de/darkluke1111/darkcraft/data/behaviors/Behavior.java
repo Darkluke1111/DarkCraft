@@ -5,7 +5,6 @@ import de.darkluke1111.darkcraft.recipegui.MenuView;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.bukkit.event.inventory.CraftItemEvent;
 import org.bukkit.event.inventory.PrepareItemCraftEvent;
 import org.bukkit.inventory.ItemStack;
@@ -14,8 +13,16 @@ import org.bukkit.material.MaterialData;
 /**
  * Defines callbacks which are called when a player tries to craft the parent recipe.
  */
-public abstract class Behavior implements ConfigurationSerializable {
+public abstract class Behavior {
   private AdvRecipe parent;
+
+  public Behavior(Map<String, Object> map) {
+
+  }
+
+  public Behavior() {
+
+  }
 
   /**
    * Method to load the class before deserialisation of objects.
@@ -38,7 +45,7 @@ public abstract class Behavior implements ConfigurationSerializable {
    * @return List of additional results.
    */
   public List<ItemStack> postCraft(CraftItemEvent event) {
-    return new ArrayList<ItemStack>();
+    return new ArrayList<>();
   }
 
   /**
@@ -65,7 +72,6 @@ public abstract class Behavior implements ConfigurationSerializable {
    */
   public abstract String getType();
 
-  @Override
   public abstract Map<String, Object> serialize();
 
 }

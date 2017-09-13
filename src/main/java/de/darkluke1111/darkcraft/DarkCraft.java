@@ -19,7 +19,6 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.configuration.serialization.ConfigurationSerialization;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -44,7 +43,6 @@ public class DarkCraft extends JavaPlugin {
     saveDefaultStructures();
     saveReadme();
 
-    registerSerialisableClasses();
     Bukkit.getPluginManager().registerEvents(listener, this);
 
     importRecipesFromConfig();
@@ -93,24 +91,6 @@ public class DarkCraft extends JavaPlugin {
     return true;
   }
 
-  private void registerSerialisableClasses() {
-    ConfigurationSerialization
-        .registerClass(Structure.class, Structure.class.getName());
-    ConfigurationSerialization
-        .registerClass(AdvRecipe.class, AdvRecipe.class.getName());
-    ConfigurationSerialization
-        .registerClass(ConsumeLifeBehavior.class, ConsumeLifeBehavior.class.getName());
-    ConfigurationSerialization
-        .registerClass(ConsumeExpBehavior.class, ConsumeExpBehavior.class.getName());
-    ConfigurationSerialization
-        .registerClass(ExplosionBehavior.class, ExplosionBehavior.class.getName());
-    ConfigurationSerialization
-        .registerClass(LightningBehavior.class, LightningBehavior.class.getName());
-    ConfigurationSerialization
-        .registerClass(StructureBehavior.class, StructureBehavior.class.getName());
-    loadBehaviors();
-  }
-
   private void loadBehaviors() {
     ConsumeExpBehavior.load();
     ConsumeLifeBehavior.load();
@@ -120,6 +100,7 @@ public class DarkCraft extends JavaPlugin {
 
   }
 
+  @SuppressWarnings("unchecked")
   private void saveDefaultRecipes() {
     List<String> recipeFileNames = (List<String>) getConfig().get("recipe_files");
     for (String recipeFileName : recipeFileNames) {
@@ -129,6 +110,7 @@ public class DarkCraft extends JavaPlugin {
     }
   }
 
+  @SuppressWarnings("unchecked")
   private void saveDefaultStructures() {
     List<String> structureFileNames = (List<String>) getConfig().get("structure_files");
     for (String structureFileName : structureFileNames) {

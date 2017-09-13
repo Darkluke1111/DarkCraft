@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.Map;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.configuration.serialization.ConfigurationSerialization;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.CraftItemEvent;
 import org.bukkit.event.inventory.PrepareItemCraftEvent;
@@ -53,7 +52,7 @@ public class ConsumeLifeBehavior extends Behavior {
     this.lifePerItem = true;
   }
 
-  //region Serialisation Stuff
+  //region Serialization Stuff
 
   /**
    * Constructor for deserialisation.
@@ -147,8 +146,6 @@ public class ConsumeLifeBehavior extends Behavior {
   @Override
   public Map<String, Object> serialize() {
     Map<String, Object> map = new LinkedHashMap<>();
-    map.put(ConfigurationSerialization.SERIALIZED_TYPE_KEY,
-        ConfigurationSerialization.getAlias(this.getClass()));
     map.put("consumedLife", consumedLife);
     map.put("lifePerItem", lifePerItem);
     map.put("preventDeath", preventDeath);

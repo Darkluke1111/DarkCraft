@@ -12,7 +12,6 @@ import java.util.Map;
 import java.util.Set;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.configuration.serialization.ConfigurationSerializable;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.ShapedRecipe;
@@ -21,7 +20,7 @@ import org.bukkit.material.MaterialData;
 /**
  * Wrapper-Class for the advanced recipes to enable more functionality than with normal recipes.
  */
-public class AdvRecipe implements ConfigurationSerializable {
+public class AdvRecipe {
   //Mapping for retrieving the wrapper Recipe
   private static Set<AdvRecipe> recipeSet = new HashSet<>();
 
@@ -39,13 +38,13 @@ public class AdvRecipe implements ConfigurationSerializable {
     }
   }
 
-  //region Serialisation Stuff
+  //region Serialization Stuff
 
   /**
    * Constructor for deserialisation.
    */
   @SuppressWarnings("unchecked, deprecation")
-  public AdvRecipe(Map<String, Object> map) {
+  private AdvRecipe(Map<String, Object> map) {
     final ItemStack result = ItemStack.deserialize((Map<String, Object>) map.get("result"));
     List<String> list = (List<String>) map.get("shape");
     String[] shape = new String[list.size()];
@@ -78,6 +77,35 @@ public class AdvRecipe implements ConfigurationSerializable {
       this.recipe.setIngredient(ent.getKey(), ent.getValue());
     }
     this.withAllBehaviors(behaviors);
+
+  }
+
+  /**
+   * Returns a map representation of the object.
+   */
+  @SuppressWarnings("deprecation")
+  public Map<String, Object> serialize() {
+    Map<String, Object> map = new LinkedHashMap<>();
+    map.put("result", getRecipe().getResult().serialize());
+    map.put("shape", getRecipe().getShape());
+
+    //Add ingredients
+    Map<String, Object> im = new HashMap<>();
+    for (Map.Entry<Character, ItemStack> ent : getRecipe().getIngredientMap().entrySet()) {
+      String key = ent.getKey().toString();
+      String val = ent.getValue().getType().toString() + ":" + ent.getValue().getData().getData();
+      im.put(key, val);
+    }
+    map.put("ingredients", im);
+
+    //add Behaviors
+    Map<String, Object> bm = new LinkedHashMap<>();
+    for (Behavior behavior : behaviors) {
+      bm.put(behavior.getType(), behavior.serialize());
+    }
+    map.put("behaviors", bm);
+
+    return map;
   }
   //endregion
 
@@ -103,7 +131,7 @@ public class AdvRecipe implements ConfigurationSerializable {
    *
    * @param recipe The wrapped recipe
    * @return The AdvRecipe wrapper class for the recipe or null if the recipe wasn't
-   *         an advanced one.
+   * an advanced one.
    */
   public static AdvRecipe getAdvRecipe(Recipe recipe) {
     for (AdvRecipe rec : recipeSet) {
@@ -154,7 +182,6 @@ public class AdvRecipe implements ConfigurationSerializable {
     recipeSet.add(this);
     Bukkit.getServer().addRecipe(this.getRecipe());
   }
-  //endregion
 
   /**
    * Returns the wraped recipe.
@@ -162,7 +189,6 @@ public class AdvRecipe implements ConfigurationSerializable {
   public ShapedRecipe getRecipe() {
     return recipe;
   }
-  //endregion
 
   /**
    * Returns a List with all corresponding events.
@@ -171,30 +197,5 @@ public class AdvRecipe implements ConfigurationSerializable {
     return behaviors;
   }
 
-  @Override
-  @SuppressWarnings("deprecation")
-  public Map<String, Object> serialize() {
-    Map<String, Object> map = new LinkedHashMap<>();
-    map.put("result", getRecipe().getResult().serialize());
-    map.put("shape", getRecipe().getShape());
-
-    //Add ingredients
-    Map<String, Object> im = new HashMap<>();
-    for (Map.Entry<Character, ItemStack> ent : getRecipe().getIngredientMap().entrySet()) {
-      String key = ent.getKey().toString();
-      String val = ent.getValue().getType().toString() + ":" + ent.getValue().getData().getData();
-      im.put(key, val);
-    }
-    map.put("ingredients", im);
-
-    //add Behaviors
-    Map<String, Object> bm = new LinkedHashMap<>();
-    for (Behavior behavior : behaviors) {
-      bm.put(behavior.getType(), behavior.serialize());
-    }
-    map.put("behaviors", bm);
-
-    return map;
-  }
   //endregion
 }

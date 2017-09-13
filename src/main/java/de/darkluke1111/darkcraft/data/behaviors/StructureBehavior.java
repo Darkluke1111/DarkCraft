@@ -13,7 +13,6 @@ import java.util.Map;
 import java.util.Set;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.configuration.serialization.ConfigurationSerialization;
 import org.bukkit.event.inventory.CraftItemEvent;
 import org.bukkit.event.inventory.PrepareItemCraftEvent;
 import org.bukkit.inventory.ItemStack;
@@ -31,7 +30,7 @@ public class StructureBehavior extends Behavior {
     this.structNames = structNames;
   }
 
-  //region Serialisation Stuff
+  //region Serialization Stuff
   @SuppressWarnings("unchecked")
   public StructureBehavior(Map<String, Object> map) {
     structNames = new HashSet<>((List<String>) map.get("structures"));
@@ -89,8 +88,6 @@ public class StructureBehavior extends Behavior {
   @Override
   public Map<String, Object> serialize() {
     Map<String, Object> map = new LinkedHashMap<>();
-    map.put(ConfigurationSerialization.SERIALIZED_TYPE_KEY,
-        ConfigurationSerialization.getAlias(this.getClass()));
     map.put("structures", new ArrayList<>(structNames));
 
     return map;
