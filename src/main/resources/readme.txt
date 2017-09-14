@@ -2,7 +2,6 @@
 Recipe Filenames must be named "recipe_<arbitaryName>.yml"
 
 <recipeName>:
-  ==: de.darkluke1111.darkcraft.data.AdvRecipe
   result:
     type: <blockType>
     amount: <amount>
@@ -15,12 +14,10 @@ Recipe Filenames must be named "recipe_<arbitaryName>.yml"
     <character>: <blockType>:<subID>
   behaviors:
     <behaviorName>:
-      ==: de.darkluke1111.darkcraft.data.behaviors.<behaviorClass>
       <behaviorAttribute1>: <value>
       <behaviorAttribute2>: <value>
       ...
     <behaviorName>:
-      ==: de.darkluke1111.darkcraft.data.behaviors.<behaviorClass>
       <behaviorAttribute1>: <value>
       <behaviorAttribute2>: <value>
       ...
@@ -41,51 +38,43 @@ test:
     A: AIR:0
     +: STONE:0
   behaviors:
-    Structure:
-      ==: de.darkluke1111.darkcraft.data.behaviors.StructureBehavior
+    StructureBehavior:
       structures:
       - Gold
-    ConsumeExp:
-      ==: de.darkluke1111.darkcraft.data.behaviors.ConsumeExpBehavior
+    ConsumeExpBehavior:
       consumedExp: 5
       expPerItem: true
-    Lightning:
-      ==: de.darkluke1111.darkcraft.data.behaviors.LightningBehavior
+    LightningBehavior:
       chance: 100
     
 --Defining different Behaviors--
 
 1.) ConsumeLife
 
-ConsumeLife:
-  ==: de.darkluke1111.darkcraft.data.behaviors.ConsumeLifeBehavior
+ConsumeLifeBehavior:
       consumedLife: <life in half hearts>
       lifePerItem: <true/false>
       preventDeath: <true/false>
       
 2.) ConsumeExp
 
-ConsumeExp:
-  ==: de.darkluke1111.darkcraft.data.behaviors.ConsumeExpBehavior
+ConsumeExpBehavior:
   consumedExp: <exp in orbs>
   expPerItem: <true/false>
   
 3.) Lightning
 
-Lightning:
-  ==: de.darkluke1111.darkcraft.data.behaviors.LightningBehavior
+LightningBehavior:
   chance: <integer 1-100>
   
 4.) Explosion
 
-Explosion:
-  ==: de.darkluke1111.darkcraft.data.behaviors.ExplosionBehavior
+ExplosionBehavior:
   chance: <integer 1-100>
   
 5.) Structure
 
-Structure
-  ==: de.darkluke1111.darkcraft.data.behaviors.StructureBehavior
+StructureBehavior
   structures:
     - <structure1>
     - <structure2>

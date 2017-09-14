@@ -65,7 +65,7 @@ public class PersistenceManager {
 
     }
 
-    recipes.stream().forEach(AdvRecipe::register);
+    recipes.forEach(AdvRecipe::register);
     return recipes;
   }
 
@@ -144,11 +144,9 @@ public class PersistenceManager {
   }
 
   @SuppressWarnings("unchecked, deprecation")
-  private Map<Character, MaterialData> parseIngredients(
-      String recipeTag,
-      ConfigurationSection recipeSection)
+  private Map<Character, MaterialData> parseIngredients(String recipeTag,
+      ConfigurationSection recipeSection) throws PersistenceSerialisazionException {
 
-      throws PersistenceSerialisazionException {
     if (!recipeSection.contains(ingredientTag)) {
       throw new PersistenceSerialisazionException(
           "Ingredient-tag of recipe '"
