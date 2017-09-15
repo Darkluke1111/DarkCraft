@@ -46,11 +46,10 @@ public class StructureBehavior extends Behavior {
   }
 
   @Override
-  public List<ItemStack> postCraft(CraftItemEvent event) {
+  public void postCraft(CraftItemEvent event) {
     if (!testForStructures(Util.getCraftingTableLocation(event))) {
       event.setCancelled(true);
     }
-    return new ArrayList<>();
   }
 
   @Override

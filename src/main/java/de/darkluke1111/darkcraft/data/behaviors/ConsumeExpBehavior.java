@@ -4,9 +4,7 @@ import de.darkluke1111.darkcraft.recipegui.MenuItem;
 import de.darkluke1111.darkcraft.recipegui.MenuView;
 import de.darkluke1111.darkcraft.recipegui.MenuViewFactory;
 import de.darkluke1111.darkcraft.util.Util;
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -64,9 +62,9 @@ public class ConsumeExpBehavior extends Behavior {
   }
 
   @Override
-  public List<ItemStack> postCraft(CraftItemEvent event) {
+  public void postCraft(CraftItemEvent event) {
     if (event.isCancelled()) {
-      return new ArrayList<>();
+      return;
     }
     Player player = Util.getCraftingPlayer(event);
     int amount = Util.getCraftAmount(event);
@@ -75,7 +73,6 @@ public class ConsumeExpBehavior extends Behavior {
     } else {
       player.setTotalExperience(player.getTotalExperience() - getTotalExp(amount));
     }
-    return new ArrayList<>();
   }
 
   @Override

@@ -4,9 +4,7 @@ import de.darkluke1111.darkcraft.recipegui.MenuItem;
 import de.darkluke1111.darkcraft.recipegui.MenuView;
 import de.darkluke1111.darkcraft.recipegui.MenuViewFactory;
 import de.darkluke1111.darkcraft.util.Util;
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -44,15 +42,14 @@ public class LightningBehavior extends Behavior {
   }
 
   @Override
-  public List<ItemStack> postCraft(CraftItemEvent event) {
+  public void postCraft(CraftItemEvent event) {
     if (event.isCancelled()) {
-      return new ArrayList<>();
+      return;
     }
     if (Util.calcChance(chance)) {
       Location location = Util.getCraftingTableLocation(event);
       location.getWorld().strikeLightning(location);
     }
-    return new ArrayList<>();
   }
 
   @Override

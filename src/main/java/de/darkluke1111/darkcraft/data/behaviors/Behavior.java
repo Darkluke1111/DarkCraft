@@ -2,12 +2,9 @@ package de.darkluke1111.darkcraft.data.behaviors;
 
 import de.darkluke1111.darkcraft.data.AdvRecipe;
 import de.darkluke1111.darkcraft.recipegui.MenuView;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 import org.bukkit.event.inventory.CraftItemEvent;
 import org.bukkit.event.inventory.PrepareItemCraftEvent;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.material.MaterialData;
 
 /**
@@ -40,12 +37,8 @@ public abstract class Behavior {
 
   /**
    * Callback method which is called right after the parent recipe was crafted.
-   * It is also possible to define additional results by returning a List with them.
-   *
-   * @return List of additional results.
    */
-  public List<ItemStack> postCraft(CraftItemEvent event) {
-    return new ArrayList<>();
+  public void postCraft(CraftItemEvent event) {
   }
 
   /**
